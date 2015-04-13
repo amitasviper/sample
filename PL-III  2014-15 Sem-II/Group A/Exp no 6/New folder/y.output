@@ -1,0 +1,236 @@
+   0  $accept : list $end
+
+   1  list :
+   2       | list stat '\n'
+   3       | list error '\n'
+
+   4  stat : expr
+
+   5  expr : '(' expr ')'
+   6       | expr '*' expr
+   7       | expr '/' expr
+   8       | expr '+' expr
+   9       | expr '-' expr
+  10       | '-' expr
+  11       | NUMBER
+
+state 0
+	$accept : . list $end  (0)
+	list : .  (1)
+
+	.  reduce 1
+
+	list  goto 1
+
+
+state 1
+	$accept : list . $end  (0)
+	list : list . stat '\n'  (2)
+	list : list . error '\n'  (3)
+
+	$end  accept
+	error  shift 2
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	stat  goto 6
+	expr  goto 7
+
+
+state 2
+	list : list error . '\n'  (3)
+
+	'\n'  shift 8
+	.  error
+
+
+state 3
+	expr : NUMBER .  (11)
+
+	.  reduce 11
+
+
+state 4
+	expr : '-' . expr  (10)
+
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	expr  goto 9
+
+
+state 5
+	expr : '(' . expr ')'  (5)
+
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	expr  goto 10
+
+
+state 6
+	list : list stat . '\n'  (2)
+
+	'\n'  shift 11
+	.  error
+
+
+state 7
+	stat : expr .  (4)
+	expr : expr . '*' expr  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr . '-' expr  (9)
+
+	'+'  shift 12
+	'-'  shift 13
+	'*'  shift 14
+	'/'  shift 15
+	'\n'  reduce 4
+
+
+state 8
+	list : list error '\n' .  (3)
+
+	.  reduce 3
+
+
+state 9
+	expr : expr . '*' expr  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr . '-' expr  (9)
+	expr : '-' expr .  (10)
+
+	.  reduce 10
+
+
+state 10
+	expr : '(' expr . ')'  (5)
+	expr : expr . '*' expr  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr . '-' expr  (9)
+
+	'+'  shift 12
+	'-'  shift 13
+	'*'  shift 14
+	'/'  shift 15
+	')'  shift 16
+	.  error
+
+
+state 11
+	list : list stat '\n' .  (2)
+
+	.  reduce 2
+
+
+state 12
+	expr : expr '+' . expr  (8)
+
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	expr  goto 17
+
+
+state 13
+	expr : expr '-' . expr  (9)
+
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	expr  goto 18
+
+
+state 14
+	expr : expr '*' . expr  (6)
+
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	expr  goto 19
+
+
+state 15
+	expr : expr '/' . expr  (7)
+
+	NUMBER  shift 3
+	'-'  shift 4
+	'('  shift 5
+	.  error
+
+	expr  goto 20
+
+
+state 16
+	expr : '(' expr ')' .  (5)
+
+	.  reduce 5
+
+
+state 17
+	expr : expr . '*' expr  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr '+' expr .  (8)
+	expr : expr . '-' expr  (9)
+
+	'*'  shift 14
+	'/'  shift 15
+	'+'  reduce 8
+	'-'  reduce 8
+	'\n'  reduce 8
+	')'  reduce 8
+
+
+state 18
+	expr : expr . '*' expr  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr . '-' expr  (9)
+	expr : expr '-' expr .  (9)
+
+	'*'  shift 14
+	'/'  shift 15
+	'+'  reduce 9
+	'-'  reduce 9
+	'\n'  reduce 9
+	')'  reduce 9
+
+
+state 19
+	expr : expr . '*' expr  (6)
+	expr : expr '*' expr .  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr . '-' expr  (9)
+
+	.  reduce 6
+
+
+state 20
+	expr : expr . '*' expr  (6)
+	expr : expr . '/' expr  (7)
+	expr : expr '/' expr .  (7)
+	expr : expr . '+' expr  (8)
+	expr : expr . '-' expr  (9)
+
+	.  reduce 7
+
+
+12 terminals, 4 nonterminals
+12 grammar rules, 21 states

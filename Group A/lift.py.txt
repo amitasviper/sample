@@ -1,0 +1,119 @@
+import RPi.GPIO as GPIO
+import threading
+import time
+
+GPIO.setmode(GPIO.BCM)
+array=[14,15,18,23,24]
+buttons=[16,20,21,19,26]
+floor=0
+floor_queue=[]
+my_lock=threading.Lock()
+
+#setup outputs
+for i in range(5):
+        GPIO.setup(array[i],GPIO.OUT,initial=0)
+GPIO.setup(2,GPIO.OUT,initial=0)
+
+#setup inputs
+for j in range(5):
+        GPIO.setup(buttons[j],GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+
+def floor0(channel):
+        floor_queue.append(0)
+
+def floor1(channel):
+        floor_queue.append(1)
+
+def floor2(channel):
+        floor_queue.append(2)
+
+def floor3(channel):
+        floor_queue.append(3)
+
+def floor4(channel):
+        floor_queue.append(4)
+
+GPIO.add_event_detect(buttons[0],GPIO.RISING,callback=floor0,bouncetime=300)
+GPIO.add_event_detect(buttons[1],GPIO.RISING,callback=floor1,bouncetime=300)
+GPIO.add_event_detect(buttons[2],GPIO.RISING,callback=floor2,bouncetime=300)
+GPIO.add_event_detect(buttons[3],GPIO.RISING,callback=floor3,bouncetime=300)
+GPIO.add_event_detect(buttons[4],GPIO.RISING,callback=floor4,bouncetime=300)
+
+def call_lift():
+        while True:
+                new_call=int(input("Enter floor :"))
+                my_lock.acquire()
+                floor_queue.append(new_call)
+                my_lock.release()
+
+def move_lift():
+        initial=0
+        GPIO.output(array[0],1)
+        while True:
+                flag=0
+                if(len(floor_queue)!=0):
+                        my_lock.acquire()
+                        num=floor_queue.pop(0)
+                        my_lock.release()
+                        if num in range(5):
+                                if(initial<num):
+					for i in range(initial,num):
+                                                my_lock.acquire()
+                                                for j in range(5):
+                                                        GPIO.output(array[j],0)
+                                                my_lock.release()
+                                                #time.sleep(1)
+                                                floor=array[i+1]
+                                                GPIO.output(floor,1)
+                                                time.sleep(1)
+                                                my_lock.acquire()
+                                                if(len(floor_queue)!=0):
+                                                        if(floor_queue[len(floor_queue)-1]<num and floor_queue[len(floor_queue)-1]>i):
+                                                                print("redirecting")
+                                                                temp=floor_queue.pop(len(floor_queue)-1)
+                                                                floor_queue.insert(0,num)
+                                                                floor_queue.insert(0,temp)
+                                                                flag=1
+                                                                initial=i+1
+                                                my_lock.release()
+                                                print(str(i+1)+":"+str(floor))
+						if(flag==1):
+                                                        break
+                                                #print(str(i+1)+":"+str(floor))
+                                else:
+                                        for i in range(initial,num,-1):
+                                                my_lock.acquire()
+                                                for j in range(5):
+                                                        GPIO.output(array[j],0)
+                                                my_lock.release()
+                                                #time.sleep(1)
+                                                floor=array[i-1]
+                                                GPIO.output(floor,1)
+                                                time.sleep(1)
+                                                my_lock.acquire()
+                                                if(len(floor_queue)!=0):
+                                                        if(floor_queue[len(floor_queue)-1]<i and floor_queue[len(floor_queue)-1]>num):
+                                                                print("redirecting")
+                                                                temp=floor_queue.pop(len(floor_queue)-1)
+                                                                floor_queue.insert(0,num)
+                                                                floor_queue.insert(0,temp)
+								flag=1
+                                                                initial=i-1
+                                                my_lock.release()
+                                                print(str(i-1)+":"+str(floor))
+                                                if(flag==1):
+                                                        break
+                                                #print(str(i-1)+":"+str(floor))
+                                if(flag!=1):
+                                        initial=num
+                        if(flag!=1):
+                                print("Present floor:"+str(initial))
+                                GPIO.output(2,1)
+                                time.sleep(3)
+                                GPIO.output(2,0)
+        GPIO.cleanup()
+
+t1=threading.Thread(target=call_lift,args=())
+t2=threading.Thread(target=move_lift,args=())
+t1.start()
+t2.start()

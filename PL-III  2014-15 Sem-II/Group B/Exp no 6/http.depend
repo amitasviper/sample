@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1425586844 source:c:\users\naresh kumar\desktop\coding\http\main.cpp
+	<stdio.h>
+	<limits.h>
+	<omp.h>
+

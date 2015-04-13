@@ -1,0 +1,20 @@
+﻿Build started 05-Mar-15 1:56:24 PM.
+     1>Project "C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Project3\Project3.vcxproj" on node 2 (Build target(s)).
+     1>AddCudaCompileDeps:
+         C:\Program Files (x86)\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /I. /FIcuda_runtime.h /c "C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Project3\even.cu" 
+       CudaBuild:
+         Compiling CUDA source file even.cu...
+         cmd.exe /C "C:\Users\nikk-300\AppData\Local\Temp\tmp2430ff576ee24da5a7665981bdd02d11.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2012 -ccbin "C:\Program Files (x86)\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MD  " -o Release\even.cu.obj "C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Project3\even.cu"
+         
+         C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Project3>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2012 -ccbin "C:\Program Files (x86)\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include"     --keep-dir Release -maxrregcount=0  --machine 32 --compile -cudart static     -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /Zi  /MD  " -o Release\even.cu.obj "C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Project3\even.cu" 
+         even.cu
+       Link:
+         C:\Program Files (x86)\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Release\Project3.exe" /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Release\Project3.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Release\Project3.lib" /MACHINE:X86 /SAFESEH Release\even.cu.obj
+         LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
+         Project3.vcxproj -> C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Release\Project3.exe
+     1>Done Building Project "C:\Users\nikk-300\Documents\Visual Studio 2012\Projects\Project3\Project3\Project3.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:17.84

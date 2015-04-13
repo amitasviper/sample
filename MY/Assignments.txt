@@ -1,0 +1,21 @@
+11/4/2015
+1.Echo Server
+2.N-ary Search
+3.Reader-Writer
+4.Traffic Signal
+
+12/4/2015
+1.Prims Algo
+2.Vedic Maths
+3.LISP
+4.CPU Freq/Square wave
+
+13/4/2015
+1.Quick Sort
+2.Odd even sort
+3.Matrix Multiplication
+4.Lift
+
+14/4/2015
+1.Yacc parser
+2.Network application using Beaglebone
